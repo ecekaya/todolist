@@ -1,6 +1,6 @@
 package com.smartict.blog.controllers;
 
-import com.smartict.blog.links.TaskControllerApi;
+import com.smartict.blog.apis.TaskControllerApi;
 import com.smartict.blog.models.Task;
 import com.smartict.blog.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @RestController
 @RequestMapping(TaskControllerApi.taskController)
@@ -51,7 +50,7 @@ public class TaskController {
 	@GetMapping(TaskControllerApi.findAll)
 	public List<Task> getAllTasks()
 	{
-		return taskService.getAll();
+		return taskService.findAllByOrderByIdAsc();
 	}
 	
 }

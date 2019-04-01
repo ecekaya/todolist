@@ -1,4 +1,4 @@
-package com.smartict.blog.links;
+package com.smartict.blog.apis;
 
 public class TaskControllerApi {
 

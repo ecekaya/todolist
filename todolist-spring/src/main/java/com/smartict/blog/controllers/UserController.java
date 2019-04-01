@@ -1,15 +1,15 @@
 package com.smartict.blog.controllers;
 
-import com.smartict.blog.links.UserControllerApi;
+import com.smartict.blog.apis.LoginControllerApi;
+import com.smartict.blog.apis.UserControllerApi;
 import com.smartict.blog.models.Task;
 import com.smartict.blog.models.User;
+import com.smartict.blog.services.EmailService;
 import com.smartict.blog.services.TaskService;
 import com.smartict.blog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(UserControllerApi.userController)
@@ -19,10 +19,20 @@ public class UserController {
     UserService userService;
     @Autowired
     TaskService taskService;
+    @Autowired
+    EmailService emailService;
+
 
     @PostMapping(UserControllerApi.create)
     public User create(@RequestBody User user) {
-        return userService.createUser(user);
+        UUID uuid = UUID.randomUUID();
+        user.setTokenId(uuid.toString());
+        User userNew = userService.createUser(user);
+        String text = "To confirm your account, please click here: " + UserControllerApi.url + UserControllerApi.userController
+                + UserControllerApi.confirmUser + "?token=" + user.getTokenId();
+        emailService.sendMail(userNew.getEmail(), "Todo List", text);
+
+        return userNew;
     }
 
     @PostMapping(UserControllerApi.update)
@@ -47,5 +57,14 @@ public class UserController {
         return userService.findAll();
     }
 
+    @PostMapping(UserControllerApi.confirmUser)
+    public User confirm(@RequestParam("token") String token) {
 
+        User user = userService.findByTokenId(token);
+        user.setIsEnabled(true);
+        user.setLastModifiedDate(new Date());
+        userService.updateUser(user);
+        return user;
+    }
 }
+

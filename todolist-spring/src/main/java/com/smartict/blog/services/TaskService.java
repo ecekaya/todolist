@@ -12,6 +12,6 @@ public interface TaskService {
 	Task createTask(Task task);
 	Task updateTask(Task task);
 	void deleteTask(Integer id);
-	List<Task> getAll();
+	List<Task> findAllByOrderByIdAsc();
 }
 

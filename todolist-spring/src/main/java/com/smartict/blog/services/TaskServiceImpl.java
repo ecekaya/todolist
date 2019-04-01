@@ -32,7 +32,6 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public Task createTask(Task task) {
 		return taskRepository.save(task);
-
 	}
 
 	@Override
@@ -64,7 +63,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional
-	public List<Task> getAll() {
+	public List<Task> findAllByOrderByIdAsc() {
 		return taskRepository.findAll();
 	}
 

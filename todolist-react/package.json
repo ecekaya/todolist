@@ -3,12 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.15.2",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "express": "4.0.0",
+    "generate-password": "^1.4.1",
     "glyphicons": "^0.2.0",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
+    "moment-timezone": "^0.5.23",
+    "rc-datetime-picker": "^1.6.1",
+    "react": "^16.8.4",
+    "react-datetime": "^2.16.3",
+    "react-dom": "^16.8.4",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.5"
   },
   "scripts": {

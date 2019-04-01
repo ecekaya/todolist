@@ -14,4 +14,6 @@ public interface UserService {
 	User updateUser(User user);
 	void delete(Integer id);
 	List<User> findAll();
+	User findByTokenId(String tokenId);
+	User findByUsername(String username,String password);
 }

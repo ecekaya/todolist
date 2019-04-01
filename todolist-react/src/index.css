@@ -14,13 +14,18 @@
 /*}*/
 html, body {
   height: 100%;
-  color: #61DAFB;
   background: #2D2D2D;
 }
 
 div.col-md-12{
-  margin: 10px;
+  margin-bottom: 10px;
 }
+
+#root{
+  /*text-align: center;*/
+  text-align: -webkit-center;
+}
+
 
 div.container{
   margin-top:30px;
@@ -32,6 +37,16 @@ div.container{
 
 .container{
   /*text-align: center;*/
+}
+
+.description-field{
+  font-size: 15px;
+  color: #808080;
+}
+
+form.taskForm{
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
 }
 /*h1 {*/
   /*margin: 20px 0 15px 0;*/

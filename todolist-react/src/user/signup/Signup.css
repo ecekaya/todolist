@@ -1,0 +1,13 @@
+div.signupForm > .col-md-5 > form > .col-md-12 > input {
+    margin: 10px;
+    align-self: center;
+}
+
+.form {
+    text-align: center;
+    padding:20px;
+}
+
+.gray-bg {
+    background-color: #eee;
+}

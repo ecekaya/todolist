@@ -1,26 +1,28 @@
 import React, {Component} from 'react';
 import {
     Route,
-    withRouter,
     Switch
 } from 'react-router-dom';
 import {Layout, notification} from '../node_modules/antd';
 import LoadingIndicator from './common/LoadingIndicator';
 import {Signup} from "./user/signup/Signup.js";
 import {TDApp} from "./todo/TDApp";
-import {TaskList} from "./todo/TaskList";
+import {ConfirmUser} from "./user/signup/ConfirmUser";
+import {ACCESS_TOKEN} from "./constants";
+import {Login} from "./user/login/Login";
+
 
 export class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentUser: null,
-            isAuthenticated: false,
-            isLoading: false
-        }
+            isAuthenticated: false
+            // isLoading: false
+        };
         this.handleLogout = this.handleLogout.bind(this);
         // this.loadCurrentUser = this.loadCurrentUser.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
+        // this.handleLogin = this.handleLogin.bind(this);
 
         notification.config({
             placement: 'topRight',
@@ -45,6 +47,7 @@ export class App extends Component {
     //             isLoading: false
     //         });
     //     });
+    //
     // }
 
     componentDidMount() {
@@ -52,12 +55,16 @@ export class App extends Component {
     }
 
     handleLogout(redirectTo = "/", notificationType = "success", description = "You're successfully logged out.") {
-        // localStorage.removeItem(USER_ID);
 
-        this.setState({
-            currentUser: null,
-            isAuthenticated: false
-        });
+        debugger;
+        localStorage.removeItem(ACCESS_TOKEN);
+
+        // this.setState({
+        //     currentUser: null,
+        //     isAuthenticated: false
+        // });
+
+        // this.router.history.push(redirectTo);
 
         this.props.history.push(redirectTo);
 
@@ -66,15 +73,15 @@ export class App extends Component {
             description: description,
         });
     }
-
-    handleLogin() {
-        notification.success({
-            message: 'Todo List',
-            description: "You're successfully logged in.",
-        });
-        // this.loadCurrentUser();
-        this.props.history.push("/");
-    }
+    //
+    // handleLogin() {
+    //     notification.success({
+    //         message: 'Todo List',
+    //         description: "You're successfully logged in.",
+    //     });
+    //     // this.loadCurrentUser();
+    //     this.props.history.push("/");
+    // }
 
     render() {
         if (this.state.isLoading) {
@@ -82,8 +89,7 @@ export class App extends Component {
         }
         return (
             <Layout className="app-container">
-
-                <div className="container">
+                <div>
                     <Switch>
                         {/*<Route exact path="/"*/}
                                {/*render={(props) => <PollList isAuthenticated={this.state.isAuthenticated}*/}
@@ -93,12 +99,15 @@ export class App extends Component {
                         {/*<Route path="/login"*/}
                                {/*render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>*/}
 
-                        <Route path="/signup" component={Signup}/>
-                        <Route exact path="/" component={TDApp}/>
 
-                        {/*<Route path="/users/:username"*/}
-                               {/*render={(props) => <Profile isAuthenticated={this.state.isAuthenticated}*/}
-                                                           {/*currentUser={this.state.currentUser} {...props}  />}>*/}
+
+                        <Route path="/signup" component={Signup}/>
+                        <Route exact path="/" component={localStorage.getItem(ACCESS_TOKEN) !== "accessToken" ? TDApp : Login}/>
+
+                        <Route path="/confirm/:token" component={ConfirmUser} />
+
+                        <Route path="/login/:close" component={Login}/>
+                        <Route path="/login" component={Login} />
                         {/*</Route>*/}
                         {/*<PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll}*/}
                                       {/*handleLogout={this.handleLogout}></PrivateRoute>*/}

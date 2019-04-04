@@ -3,6 +3,7 @@ package com.smartict.blog.apis;
 public class UserControllerApi {
 
     public static final String url = "http://localhost:8081";
+    public static final String clientUrl = "http://localhost:3000/";
     public static final String userController = "/user/";
 
     public static final String find = "find/{id}";

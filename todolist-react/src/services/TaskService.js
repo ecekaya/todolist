@@ -7,6 +7,7 @@ export class TaskService extends BaseService {
     // }
 
     static task = "task/";
+    static findUserTasks = "findUserTasks/";
 
     getRequest(url) { debugger
         return super.getRequest(url);

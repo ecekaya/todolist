@@ -21,6 +21,7 @@ export class BaseService extends React.Component {
     static create = "create";
     static update = "update";
     static delete = "delete/";
+    static find = "find/";
 
     getRequest(url) {
         debugger;
@@ -55,4 +56,5 @@ export class BaseService extends React.Component {
             })
         });
     }
+
 }

@@ -22,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT * FROM todolist.user WHERE tokenId = :tokenId", nativeQuery = true)
     User getByTokenId(@Param("tokenId") String tokenId);
 
-    @Query(value = "SELECT * FROM todolist.user WHERE username = :username and password= :password", nativeQuery = true)
+    @Query(value = "SELECT * FROM todolist.user WHERE username = :username", nativeQuery = true)
+    User getByUsername(@Param("username") String username);
+
+    @Query(value = "SELECT * FROM todolist.user WHERE username = :username and password= :password and isEnabled=1", nativeQuery = true)
     User getByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 }

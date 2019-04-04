@@ -3,6 +3,7 @@ import {BaseService} from "./BaseService";
 export class UserService extends BaseService {
 
     static user = "user/";
+    static confirm = "confirm?token=";
 
     getRequest(url) {
         return super.getRequest(url);

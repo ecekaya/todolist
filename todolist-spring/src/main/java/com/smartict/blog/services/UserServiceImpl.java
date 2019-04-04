@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByTokenId(String tokenId) {
+    public User findByTokenId(String tokenId) throws UserNotFoundException{
         return userRepository.getByTokenId(tokenId);
 
     }
@@ -59,5 +59,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.getByUsernameAndPassword(username,password);
     }
 
-
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.getByUsername(username);
+    }
 }

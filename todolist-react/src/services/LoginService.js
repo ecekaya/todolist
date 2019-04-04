@@ -5,7 +5,6 @@ export class LoginService extends BaseService {
     static auth = "auth/";
 
     static login = "login";
-    static signup = "signup";
 
     getRequest(url) {
         return super.getRequest(url);

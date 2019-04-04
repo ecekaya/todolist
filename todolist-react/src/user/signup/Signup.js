@@ -3,10 +3,7 @@ import './Signup.css';
 import {UserService} from "../../services/UserService";
 import {User} from "../../models/User";
 import moment from '../../../node_modules/moment';
-import {BrowserRouter as Router, Route,Switch, Link} from "../../../node_modules/react-router-dom";
-import {TaskList} from "../../index";
-import {TaskService} from "../../services/TaskService";
-
+import {Link} from "../../../node_modules/react-router-dom";
 
 var userService = new UserService();
 
@@ -14,9 +11,7 @@ export class Signup extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
-        this.state = {
-            user: []
-        }
+
     }
 
     componentDidMount() {
@@ -38,10 +33,16 @@ export class Signup extends React.Component {
             userService.postRequest(UserService.host + UserService.user + UserService.create, user,
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
                 .then(response => {
-                    alert("Successfully signed up! Check your email.");
-                    this.setState({user: response.data});
+                    console.log(response);
+                    if(response.data !== null)
+                    {
+                        alert("Successfully signed up! Check your email.");
+                        this.setState({user: response.data});
+                    }
+                    else {
+                        alert("Username is already taken!");
+                    }
                     this.refs.form.reset();
-                    this.props.history.push("/");
                 }).catch(error => {
                 console.log(error.response);
                 alert("Couldn't signed up!");
@@ -54,7 +55,7 @@ export class Signup extends React.Component {
     render() {
         return (
             <div className="signupForm">
-                <div className="gray-bg col-md-5" style={{"padding": "20px"}}>
+                <div className="gray-bg col-md-4" style={{"padding": "20px"}}>
                     <h1>Sign Up</h1>
                     <form ref="form" onSubmit={this.onSubmit} className="form">
                         <div className="col-md-12 ">

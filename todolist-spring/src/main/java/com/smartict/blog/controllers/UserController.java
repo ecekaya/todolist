@@ -2,6 +2,7 @@ package com.smartict.blog.controllers;
 
 import com.smartict.blog.apis.LoginControllerApi;
 import com.smartict.blog.apis.UserControllerApi;
+import com.smartict.blog.exceptions.UserNotFoundException;
 import com.smartict.blog.models.Task;
 import com.smartict.blog.models.User;
 import com.smartict.blog.services.EmailService;
@@ -9,6 +10,8 @@ import com.smartict.blog.services.TaskService;
 import com.smartict.blog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.Authenticator;
 import java.util.*;
 
 @RestController
@@ -25,14 +28,24 @@ public class UserController {
 
     @PostMapping(UserControllerApi.create)
     public User create(@RequestBody User user) {
-        UUID uuid = UUID.randomUUID();
-        user.setTokenId(uuid.toString());
-        User userNew = userService.createUser(user);
-        String text = "To confirm your account, please click here: " + UserControllerApi.url + UserControllerApi.userController
-                + UserControllerApi.confirmUser + "?token=" + user.getTokenId();
-        emailService.sendMail(userNew.getEmail(), "Todo List", text);
 
-        return userNew;
+        String username= user.getUsername();
+        User u = userService.findByUsername(username);
+        if (u != null) {
+            UUID uuid = UUID.randomUUID();
+            user.setTokenId(uuid.toString());
+            User userNew = userService.createUser(user);
+            String text = "To confirm your account, please click here: " + UserControllerApi.clientUrl
+                    + UserControllerApi.confirmUser + "/" + user.getTokenId();
+            emailService.sendMail(userNew.getEmail(), "Todo List", text);
+            return userNew;
+        }
+        else
+        {
+            return null;
+        }
+
+
     }
 
     @PostMapping(UserControllerApi.update)
@@ -57,14 +70,20 @@ public class UserController {
         return userService.findAll();
     }
 
+
     @PostMapping(UserControllerApi.confirmUser)
     public User confirm(@RequestParam("token") String token) {
-
         User user = userService.findByTokenId(token);
-        user.setIsEnabled(true);
-        user.setLastModifiedDate(new Date());
-        userService.updateUser(user);
-        return user;
+        if (user.getIsEnabled()) {
+            return null;
+        } else {
+            user.setIsEnabled(true);
+            user.setLastModifiedDate(new Date());
+            userService.updateUser(user);
+
+            return user;
+        }
+
     }
 }
 

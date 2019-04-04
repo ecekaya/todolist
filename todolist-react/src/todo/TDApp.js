@@ -2,10 +2,11 @@ import React from "react";
 import {Task} from "../models/Task";
 import moment from "../../node_modules/moment";
 import {TaskService} from "../services/TaskService";
-import {Header} from "./Header";
 import {Form} from "./Form";
 import {List} from "./List";
-import "./TaskList";
+import {TopBar} from "./TopBar";
+import {Header} from "./Header";
+import {ACCESS_TOKEN, USER_ID} from "../constants";
 
 var tasks = [];
 var taskService = new TaskService();
@@ -17,36 +18,20 @@ export class TDApp extends React.Component {
         this.deleteTask = this.deleteTask.bind(this);
         this.doneTask = this.doneTask.bind(this);
         this.reset = this.reset.bind(this);
-        // this.state = {
-        //     tasks: []
-        // }
     }
 
     componentDidMount() {
-
-        taskService.getRequest(TaskService.host + TaskService.task + TaskService.findAll).then(response => {
-            console.log(response);
-
-
-            if (response.data != null) {
-                const u = response.data;
-
-                u.map((item, key) => {
-                    debugger;
-                    item.createDate = moment(item.createDate).format("YYYY-MM-DD");
-                    return tasks.push({
-                        index: item.id, value: item.name, done: item.status, i: key,
-                        createDate: item.createDate, endDate: item.endDate, description: item.description
-                    });
-                });
-                this.setState({tasks: u});
-            }
-        });
+        var token = localStorage.getItem(ACCESS_TOKEN);
+        if (token) {
+            this.reset();
+        } else {
+            this.props.history.push("/signup");
+        }
     }
+
 
     addTask(newItemValue, endDate, description) {
 
-        debugger;
         var length = this.state.tasks.length;
         var task = new Task();
         var now = moment();
@@ -56,7 +41,7 @@ export class TDApp extends React.Component {
         task.description = description;
         task.status = false;
         task.createDate = now.format("YYYY-MM-DD").toString();
-
+        task.userId=localStorage.getItem(USER_ID);
 
         taskService.postRequest(TaskService.host + TaskService.task + TaskService.create, task).then(response => {
             console.log(response);
@@ -67,7 +52,8 @@ export class TDApp extends React.Component {
                 i: length,
                 createDate: task.createDate,
                 endDate: endDate,
-                description: description
+                description: description,
+                userId: response.data.userId
             });
             this.setState({tasks: tasks});
         });
@@ -86,25 +72,34 @@ export class TDApp extends React.Component {
     reset() {
         tasks = [];
 
-        taskService.getRequest(TaskService.host + TaskService.task + TaskService.findAll).then(response => {
+        taskService.getRequest(TaskService.host + TaskService.task + TaskService.findUserTasks + localStorage.getItem(USER_ID)).then(response => {
+            console.log(response);
             const u = response.data;
 
-            u.map((item, key) => {
-                item.createDate = moment(item.createDate).format("YYYY-MM-DD");
-                return tasks.push({
-                    index: item.id, value: item.name, done: item.status, i: key,
-                    createDate: item.createDate, endDate: item.endDate, description: item.description
+            if(u !== null && u !== "")
+            {
+                u.map((item, key) => {
+                    item.createDate = moment(item.createDate).format("YYYY-MM-DD");
+                    return tasks.push({
+                        index: item.id,
+                        value: item.name,
+                        done: item.status,
+                        i: key,
+                        createDate: item.createDate,
+                        endDate: item.endDate,
+                        description: item.description,
+                        userId: item.userId
+                    });
                 });
-            });
+            }
+
             this.setState({tasks: u});
         });
     }
 
     doneTask(itemIndex, i) {
         var item = tasks[i];
-        // tasks.splice(i, 1);
         item.done = !item.done;
-        // tasks.done ? tasks.push(item) : tasks.unshift(item);
 
         taskService.postRequest(TaskService.host + TaskService.task + TaskService.update, {
             id: item.index,
@@ -113,7 +108,8 @@ export class TDApp extends React.Component {
             createDate: item.createDate,
             endDate: item.endDate,
             description: item.description,
-            lastModifiedDate: moment().format("YYYY-MM-DD")
+            lastModifiedDate: moment().format("YYYY-MM-DD"),
+            userId: item.userId
         }).then(response => {
             console.log(response);
         });
@@ -123,32 +119,14 @@ export class TDApp extends React.Component {
 
     render() {
         return (
-            <div className="container" style={{'textAlign': 'left'}}>
-                <Header/>
-                <Form addTask={this.addTask}/>
-                <List items={tasks} deleteTask={this.deleteTask} doneTask={this.doneTask}/>
+            <div>
+                <TopBar/>
+                <div className="container" style={{'textAlign': 'left'}}>
+                    <Header/>
+                    <Form addTask={this.addTask}/>
+                    <List items={tasks} deleteTask={this.deleteTask} doneTask={this.doneTask}/>
+                </div>
             </div>
         );
     }
 }
-
-// function getAll() {
-//     taskService.getRequest(TaskService.host + TaskService.task + TaskService.findAll).then(response => {
-//         console.log(response);
-//
-//
-//         if (response.data != null) {
-//             const u = response.data;
-//
-//             u.map((item, key) => {
-//                 debugger;
-//                 item.createDate = moment(item.createDate).format("YYYY-MM-DD");
-//                 return tasks.push({
-//                     index: item.id, value: item.name, done: item.status, i: key,
-//                     createDate: item.createDate, endDate: item.endDate, description: item.description
-//                 });
-//             });
-//             this.setState({tasks: u});
-//         }
-//     });
-// }

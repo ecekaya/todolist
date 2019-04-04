@@ -14,6 +14,7 @@ public interface UserService {
 	User updateUser(User user);
 	void delete(Integer id);
 	List<User> findAll();
-	User findByTokenId(String tokenId);
+	User findByTokenId(String tokenId) throws UserNotFoundException;
 	User findByUsername(String username,String password);
+	User findByUsername(String username);
 }

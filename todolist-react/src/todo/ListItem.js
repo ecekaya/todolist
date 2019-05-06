@@ -1,5 +1,6 @@
 import React from "react";
 import icons from "glyphicons";
+import moment from "../../node_modules/moment";
 
 export class ListItem extends React.Component {
     constructor(props) {
@@ -30,9 +31,10 @@ export class ListItem extends React.Component {
                 <div>
                     <button className="btn btn-default" aria-hidden="false"
                             onClick={this.onClickDone}>{icons.ok}</button>
-                    {this.props.item.value} ({this.props.item.createDate} | {this.props.item.endDate})
+                    {this.props.item.value}
                     <button type="button" className="close" onClick={this.onClickClose}>&times;</button>
                     <div className="col-md-12 description-field">{this.props.item.description}</div>
+                    <span className="description-field" style={{"float":"right"}}> {moment(this.props.item.endDate).diff(moment()) >= 0 ?  "Last "+ moment(this.props.item.endDate).diff(moment(),'days') + " days!": "Time is up!"}</span>
                 </div>
             </li>
         )

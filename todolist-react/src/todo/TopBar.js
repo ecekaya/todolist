@@ -10,14 +10,16 @@ export class TopBar extends React.Component {
         return (
             <div className="col-md-12 topbar">
                 <div style={{"float": "left"}}>
-                    <h5>Todo list</h5>
+                    <Link to='/' style={{"textDecoration": "none", "color": "black"}}><h5>Todo list</h5></Link>
                 </div>
                 <div style={{"float": "right"}}>
-                    <div style={{"float": "left","margin":"8px 20px 0 0" , "fontSize":"large"}} >
-                       Welcome <span>{localStorage.getItem(USER_NAME)} {localStorage.getItem(USER_SURNAME)}!</span>
+                    <div style={{"float": "left", "margin": "8px 20px 0 0", "fontSize": "large"}}>
+                        Welcome <span>{localStorage.getItem(USER_NAME)} {localStorage.getItem(USER_SURNAME)}!</span>
                     </div>
                     <Link to='/'><Icon type="home" title="Home" style={{"cursor": "pointer"}}/></Link>
-                    <Link to='/login/close'><Icon type="poweroff" title="Logout" style={{"cursor": "pointer", "marginLeft": "10px"}}/></Link>
+                    <Link to='/profile'><Icon type="user" title="Profile" style={{"cursor": "pointer", "marginLeft": "10px"}} /></Link>
+                    <Link to='/login/close'><Icon type="poweroff" title="Logout"
+                                                  style={{"cursor": "pointer", "marginLeft": "10px"}}/></Link>
                 </div>
             </div>
         );

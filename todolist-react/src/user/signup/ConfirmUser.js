@@ -34,9 +34,7 @@ export class ConfirmUser extends React.Component {
             alert("Couldn't signed in!");
         });
     }
-
-    render() {
-        return "qwerty";
+    render(){
+        return "Please wait!";
     }
-
 }

@@ -29,9 +29,10 @@ public class UserController {
     @PostMapping(UserControllerApi.create)
     public User create(@RequestBody User user) {
 
-        String username= user.getUsername();
+        String username = user.getUsername();
         User u = userService.findByUsername(username);
-        if (u != null) {
+
+        if (u == null) {
             UUID uuid = UUID.randomUUID();
             user.setTokenId(uuid.toString());
             User userNew = userService.createUser(user);
@@ -39,13 +40,9 @@ public class UserController {
                     + UserControllerApi.confirmUser + "/" + user.getTokenId();
             emailService.sendMail(userNew.getEmail(), "Todo List", text);
             return userNew;
-        }
-        else
-        {
+        } else {
             return null;
         }
-
-
     }
 
     @PostMapping(UserControllerApi.update)

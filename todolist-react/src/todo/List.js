@@ -1,6 +1,5 @@
 import React from "react";
 import {ListItem} from "./ListItem";
-import {ACCESS_TOKEN} from "../constants";
 
 export class List extends React.Component {
     render() {
@@ -11,7 +10,7 @@ export class List extends React.Component {
             );
         });
         return (
-            <div className="col-md-8">
+            <div className="col-md-8" style={{"float": "right"}}>
                 <ul className="bg-light list-group">
                     {tasks}
                 </ul>

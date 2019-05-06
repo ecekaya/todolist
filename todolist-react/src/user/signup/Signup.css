@@ -1,11 +1,28 @@
-div.signupForm > .col-md-4 > form > .col-md-12 > input {
-    margin: 10px;
+div.signupForm input {
+    margin-bottom: 15px;
     align-self: center;
 }
 
 .form {
-    text-align: center;
+    /*text-align: center;*/
     padding:20px;
+    /*background-color: white;*/
+    font-size: large;
+}
+
+
+div.signupForm .p-float-label > label{
+    line-height: 0;
+    margin-top:-2px;
+
+}
+
+div.signupForm .p-float-label{
+    display: unset;
+}
+div.signupForm .p-inputtext{
+
+    font-size: medium;
 }
 
 .gray-bg {

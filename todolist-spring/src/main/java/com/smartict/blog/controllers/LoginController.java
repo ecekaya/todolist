@@ -22,6 +22,11 @@ public class LoginController {
 
     @GetMapping(LoginControllerApi.login)
     public User login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        return userService.findByUsername(username,password);
+        User u = userService.findByUsername(username, password);
+        if (u == null) {
+            return null;
+        } else {
+            return u;
+        }
     }
 }

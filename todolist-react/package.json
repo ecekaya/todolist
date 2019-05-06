@@ -6,16 +6,21 @@
     "antd": "^3.15.2",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
+    "classnames": "^2.2.6",
     "express": "4.0.0",
     "generate-password": "^1.4.1",
     "glyphicons": "^0.2.0",
     "moment-timezone": "^0.5.23",
+    "primeicons": "^1.0.0",
+    "primereact": "^3.1.2",
     "rc-datetime-picker": "^1.6.1",
     "react": "^16.8.4",
     "react-datetime": "^2.16.3",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "react-transition-group": "^2.9.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -5,7 +5,6 @@ import {TaskService} from "../services/TaskService";
 import {Form} from "./Form";
 import {List} from "./List";
 import {TopBar} from "./TopBar";
-import {Header} from "./Header";
 import {ACCESS_TOKEN, USER_ID} from "../constants";
 
 var tasks = [];
@@ -121,8 +120,7 @@ export class TDApp extends React.Component {
         return (
             <div>
                 <TopBar/>
-                <div className="container" style={{'textAlign': 'left'}}>
-                    <Header/>
+                <div className="container" style={{'textAlign': 'left',"paddingTop":"100px"}}>
                     <Form addTask={this.addTask}/>
                     <List items={tasks} deleteTask={this.deleteTask} doneTask={this.doneTask}/>
                 </div>
